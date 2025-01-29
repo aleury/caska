@@ -84,18 +84,18 @@ impl TryFrom<Vec<u8>> for KeyValueEntry {
 
         let tstamp = cursor.read_u32::<BigEndian>()?;
         let ksz = cursor.read_u32::<BigEndian>()?;
-        let vsz = cursor.read_u32::<BigEndian>()?;
+        let value_sz = cursor.read_u32::<BigEndian>()?;
 
         let mut key = vec![0; ksz as usize];
         cursor.read_exact(&mut key)?;
 
-        let mut value = vec![0; vsz as usize];
+        let mut value = vec![0; value_sz as usize];
         cursor.read_exact(&mut value)?;
 
         Ok(Self {
             tstamp,
             ksz,
-            value_sz: vsz,
+            value_sz,
             key,
             value,
         })
